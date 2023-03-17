@@ -1,112 +1,76 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
 import React from 'react';
 import type {Node} from 'react';
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
   Text,
-  useColorScheme,
   View,
 } from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import {NavigationContainer} from "@react-navigation/native";
+import { BottomTabBar, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import HomeScreen from './screens/homescreen/HomeScreen';
+import TransactionScreen from './screens/transactionscreen/TransactionScreen';
+import AddBudgetScreen from './screens/addbudgetscreen/AddBudgetScreen';
+import ReportScreen from './screens/reportscreen/ReportScreen';
+import UserScreen from './screens/userscreen/UserScreen';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-const Section = ({children, title}): Node => {
-  const isDarkMode = useColorScheme() === 'dark';
+const App = () => {
+  const Tab=createBottomTabNavigator();
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
+   <NavigationContainer >
+    <Tab.Navigator  screenOptions={({route}) => ({
+      tabBarIcon: ({focused,size,colour,text}) =>{
+        let iconName;
+        if(route.name==='Trang chủ'){
+          iconName= 'home' ;
+          size=focused ? size+8 : size+3;
+          colour=focused ? '#283618' :'#767676';
+        }else if(route.name==='Giao dịch'){
+          iconName= 'wallet';
+          size=focused ? size+8 : size+3;
+          colour=focused ? '#283618' :'#767676';
+        }else if(route.name===' '){
+          iconName= 'add-circle' ;
+          size= size+30 ;
+          colour='#1FA97C';
+        }else if(route.name==='Báo cáo'){
+          iconName= 'stats-chart' ;
+          size=focused ? size+8 : size+3;
+          colour=focused ? '#283618' :'#767676';
+        }else if(route.name==='Người dùng'){
+         iconName= 'person-circle';
+          size=focused ? size+9 : size+5;
+          colour=focused ? '#283618' :'#767676';
+        }
+        return <View>
+            <Ionicons   name={iconName} size={size} color={colour}/>
+            
+          </View>;
+      },
+      
+    
+    tabBarStyle:{
+      position:'absolute',
+      bottom:15,
+      left:10,
+      right:10,
+      elevation:0,
+      backgroundColor:'#ffffff',
+      borderRadius:15, 
+      height:60,
+    },
+    tabBarShowLabel:false,
+    
+    })}
+    >
+        <Tab.Screen  name='Trang chủ' component={HomeScreen}></Tab.Screen>
+        <Tab.Screen  name='Giao dịch' component={TransactionScreen}></Tab.Screen>
+        <Tab.Screen  name=' ' component={AddBudgetScreen}></Tab.Screen>
+        <Tab.Screen  name='Báo cáo' component={ReportScreen}></Tab.Screen>
+        <Tab.Screen  name='Người dùng' component={UserScreen}></Tab.Screen>
+    </Tab.Navigator>
+   </NavigationContainer>
   );
 };
-
-const App: () => Node = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.js</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-};
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
 
 export default App;

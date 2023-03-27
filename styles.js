@@ -30,11 +30,6 @@ const styles = StyleSheet.create({
     },
 
     //Text styles:
-    
-    generalText: {
-        fontFamily: 'Inter',
-        fontStyle: 'normal',
-    },
 
     headingOne: {
         fontWeight: '500',

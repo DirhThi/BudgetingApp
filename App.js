@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import type {Node} from 'react';
 import {
   Text,
@@ -13,9 +13,32 @@ import AddBudgetScreen from './screens/addbudgetscreen/AddBudgetScreen';
 import ReportScreen from './screens/reportscreen/ReportScreen';
 import UserScreen from './screens/userscreen/UserScreen';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
+import * as Font from 'expo-font';
+
+//Add custom fonts here
+/*Usage: 
+ 
+import Inter from './fonts';
+<Inter style={{fontSize: 20}}>Custom font with bigger size</Inter>
+*/
+
+async function loadFonts() {
+  await Font.loadAsync({
+    'Inter': require('./assets/fonts/Inter-VariableFont_slnt,wght.ttf'),
+  });
+}
 
 const App = () => {
   const Tab=createBottomTabNavigator();
+  const [fontsLoaded, setFontsLoaded] = useState(false);
+
+  if (!fontsLoaded) {
+    //Display a 'Loading fonts' screen while fonts are being loaded
+    return (
+      <Text>Loading fonts...</Text>
+    );
+  }
+
   return (
    <NavigationContainer >
     <Tab.Navigator  screenOptions={({route}) => ({
